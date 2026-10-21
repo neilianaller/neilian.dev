@@ -7,13 +7,18 @@ interface Props {
 const { class: className = '', inverted = false } = Astro.props;
 ---
 
-<!-- TODO: replace with real logo -->
 <a
   href="/"
-  class={`inline-flex items-center gap-2 font-bold tracking-tight text-xl sm:text-2xl transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink ${
-    inverted ? 'text-white' : 'text-ink'
-  } ${className}`}
+  class={`inline-flex items-center transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink ${className}`}
   aria-label="NEILIAN.DEV - Home"
 >
-  <span class="tracking-tightest font-extrabold">NEILIAN.DEV</span>
+  <img
+    src="/placeholders/neilian.dev-logo.png"
+    alt="NEILIAN.DEV"
+    width="1606"
+    height="220"
+    class={`h-7 sm:h-8 w-auto object-contain transition-all duration-200 ${
+      inverted ? 'brightness-0 invert' : ''
+    }`}
+  />
 </a>
