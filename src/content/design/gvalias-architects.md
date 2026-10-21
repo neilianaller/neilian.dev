@@ -4,7 +4,7 @@ tagline: "Logo and Branding for contemporary architectural studio."
 category: "Logo and Branding"
 image: "/placeholders/gvalias.png"
 gallery: []
-link: ""
+link: "https://www.instagram.com/gva_designbuilds"
 featured: true
 order: 4
 year: 2024

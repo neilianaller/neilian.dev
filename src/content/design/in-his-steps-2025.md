@@ -4,7 +4,7 @@ tagline: "Book Cover and Layout for the annual spiritual reflection volume."
 category: "Book Cover and Layout"
 image: "/placeholders/ihs2026.jpeg"
 gallery: []
-link: ""
+link: "https://shopee.ph/In-His-Steps-2026-Daily-Prayer-and-Scripture-Guide-i.1036300727.40174414428"
 featured: true
 order: 2
 year: 2026

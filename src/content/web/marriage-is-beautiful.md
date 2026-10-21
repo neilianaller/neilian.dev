@@ -2,9 +2,9 @@
 title: "Marriage is Beautiful Web"
 tagline: "Share your reasons why the world celebrates marriage."
 category: "Web"
-image: "/placeholders/project-1.jpg"
+image: "/placeholders/marriage.png"
 gallery: []
-link: "https://example.com/TODO"
+link: "https://marriage-is-beautiful.web.app"
 storySlug: "why-i-built-marriage-is-beautiful-web"
 featured: false
 order: 4

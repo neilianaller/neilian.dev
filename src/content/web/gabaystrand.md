@@ -1,10 +1,10 @@
 ---
-title: "GabayStrand Mobile"
+title: "GabayStrand"
 tagline: "Multi-dimensional career assessment for senior high tracks."
-category: "Mobile"
-image: "/placeholders/project-1.jpg"
+category: "Web"
+image: "/placeholders/gabaystrand.png"
 gallery: []
-link: "https://example.com/TODO"
+link: "https://gabaystrand.neilian.dev"
 storySlug: "why-i-built-gabaystrand"
 featured: false
 order: 3

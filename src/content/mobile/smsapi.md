@@ -2,9 +2,9 @@
 title: "SMSAPI"
 tagline: "Turn your Android phone into a powerful SMS Gateway."
 category: "Mobile"
-image: "/placeholders/project-1.jpg"
+image: "/placeholders/smsapi.png"
 gallery: []
-link: "https://example.com/TODO"
+link: "https://smsapi.neilian.dev"
 storySlug: "why-i-built-smsapi"
 featured: false
 order: 2

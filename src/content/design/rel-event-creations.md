@@ -4,7 +4,7 @@ tagline: "Logo and Branding for premier event curation and creative styling."
 category: "Logo and Branding"
 image: "/placeholders/rel-event.png"
 gallery: []
-link: ""
+link: "https://www.facebook.com/profile.php?id=100083136042152"
 featured: true
 order: 1
 year: 2022

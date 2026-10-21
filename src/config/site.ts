@@ -49,7 +49,7 @@ export const site: SiteConfig = {
   ],
   counters: [
     { label: "Deployed systems", value: 13 },
-    { label: "Mobile apps launched", value: 3 },
+    { label: "Mobile apps launched", value: 4 },
     { label: "Logos designed", value: 18 },
     { label: "Books designed", value: 25 },
   ],
