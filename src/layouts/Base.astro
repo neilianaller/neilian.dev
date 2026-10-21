@@ -1,0 +1,97 @@
+---
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../config/site';
+import syneFontWoff2 from '@fontsource-variable/syne/files/syne-latin-wght-normal.woff2?url';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+}
+
+const {
+  title = `${site.name} — Indie Developer & Designer`,
+  description = site.description,
+  image = '/og-image.png',
+  article = false,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || site.url);
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="author" content="Neilian" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, canonicalURL)} />
+    <meta property="og:site_name" content={site.name} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, canonicalURL)} />
+
+    <!-- Font preload for hero performance -->
+    <link
+      rel="preload"
+      href={syneFontWoff2}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- Progressive enhancement: add js class -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body class="flex flex-col min-h-screen bg-bg text-ink selection:bg-ink selection:text-white">
+    <!-- Skip to Content Link -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-[100] px-4 py-2 bg-ink text-white font-mono-tag text-xs rounded border border-white focus:outline-none"
+    >
+      Skip to content
+    </a>
+
+    <!-- Sticky / Floating Navigation -->
+    <Nav currentPath={currentPath} />
+
+    <!-- Main Content Slot -->
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    <!-- Global Footer -->
+    <Footer />
+
+    <!-- Scroll reveal orchestrator -->
+    <script>
+      import { initScrollReveals } from '../scripts/reveal';
+      initScrollReveals();
+      document.addEventListener('astro:page-load', initScrollReveals);
+    </script>
+  </body>
+</html>

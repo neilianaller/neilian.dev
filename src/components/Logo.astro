@@ -1,0 +1,19 @@
+---
+interface Props {
+  class?: string;
+  inverted?: boolean;
+}
+
+const { class: className = '', inverted = false } = Astro.props;
+---
+
+<!-- TODO: replace with real logo -->
+<a
+  href="/"
+  class={`inline-flex items-center gap-2 font-bold tracking-tight text-xl sm:text-2xl transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink ${
+    inverted ? 'text-white' : 'text-ink'
+  } ${className}`}
+  aria-label="NEILIAN.DEV - Home"
+>
+  <span class="tracking-tightest font-extrabold">NEILIAN.DEV</span>
+</a>

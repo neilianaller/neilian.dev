@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="404 — Page Not Found — NEILIAN.DEV"
+  description="The requested page could not be located on neilian.dev"
+>
+  <div class="min-h-[70vh] flex flex-col items-center justify-center text-center max-w-6xl mx-auto px-4 py-20">
+    <span class="font-mono-tag text-xs tracking-widest text-ink-soft uppercase mb-4">
+      [ERROR 404]
+    </span>
+    <h1 class="text-6xl sm:text-8xl font-extrabold text-ink tracking-tightest mb-4">
+      Lost in Transit.
+    </h1>
+    <p class="text-lg text-ink-soft max-w-md mb-8">
+      The system path you attempted to access does not exist or has been relocated to another address.
+    </p>
+    <a
+      href="/"
+      class="inline-flex items-center justify-center px-8 py-3.5 bg-ink text-white font-medium text-sm tracking-wide hover:bg-ink-soft transition-colors min-h-[44px] cursor-pointer"
+    >
+      RETURN TO HOMEPAGE →
+    </a>
+  </div>
+</Base>

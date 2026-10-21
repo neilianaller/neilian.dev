@@ -1,0 +1,169 @@
+---
+import Logo from './Logo.astro';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+const isHome = currentPath === '/';
+
+const navItems = [
+  { label: 'Services', href: isHome ? '#services' : '/#services', mono: '[01]' },
+  { label: 'Work', href: isHome ? '#work' : '/#work', mono: '[02]' },
+  { label: 'Design', href: isHome ? '#design' : '/#design', mono: '[03]' },
+  { label: 'Stories', href: '/stories', mono: '[04]' },
+  { label: 'Contact', href: isHome ? '#contact' : '/#contact', mono: '[05]' },
+];
+---
+
+<header class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-line transition-all duration-200">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+    <!-- Logo placeholder -->
+    <Logo />
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-8" aria-label="Main Navigation">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class="group inline-flex items-center gap-1.5 text-sm font-medium text-ink transition-colors duration-200 hover:text-ink-soft cursor-pointer"
+          >
+            <span class="font-mono-tag text-[10px] text-ink-soft opacity-60 group-hover:opacity-100 transition-opacity">
+              {item.mono}
+            </span>
+            <span class="relative">
+              {item.label}
+              <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-ink transition-all duration-200 group-hover:w-full" />
+            </span>
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- Mobile Hamburger Toggle -->
+    <div class="md:hidden flex items-center">
+      <button
+        id="mobile-menu-toggle"
+        type="button"
+        class="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded border border-line text-ink hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink cursor-pointer"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav-menu"
+      >
+        <span class="sr-only">Open main menu</span>
+        <!-- Hamburger bars -->
+        <div class="w-5 h-4 flex flex-col justify-between" id="hamburger-icon">
+          <span class="w-full h-[1.5px] bg-ink transition-transform duration-200 origin-center"></span>
+          <span class="w-full h-[1.5px] bg-ink transition-opacity duration-200"></span>
+          <span class="w-full h-[1.5px] bg-ink transition-transform duration-200 origin-center"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Slide-Down / Fullscreen Modal Menu -->
+  <div
+    id="mobile-nav-menu"
+    class="md:hidden fixed inset-x-0 top-16 sm:top-20 bottom-0 bg-white border-b border-line flex flex-col justify-between p-6 opacity-0 pointer-events-none transition-all duration-300 z-40 overflow-y-auto"
+    aria-hidden="true"
+  >
+    <nav class="flex flex-col space-y-4 pt-4" aria-label="Mobile Navigation">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class="mobile-nav-link flex items-center justify-between py-3 border-b border-line text-xl font-bold text-ink tracking-tight hover:opacity-75 transition-opacity cursor-pointer"
+          >
+            <span>{item.label}</span>
+            <span class="font-mono-tag text-xs text-ink-soft">{item.mono}</span>
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="pt-8 pb-4">
+      <p class="font-mono-tag text-xs text-ink-soft uppercase tracking-wider mb-2">NEILIAN.DEV</p>
+      <p class="text-sm text-ink-soft">Web, mobile, and brand design.</p>
+    </div>
+  </div>
+</header>
+
+<script>
+  function setupMobileNav() {
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-nav-menu');
+    const links = document.querySelectorAll('.mobile-nav-link');
+
+    if (!toggle || !menu) return;
+
+    let isOpen = false;
+
+    function openMenu() {
+      isOpen = true;
+      toggle?.setAttribute('aria-expanded', 'true');
+      menu?.setAttribute('aria-hidden', 'false');
+      menu?.classList.remove('opacity-0', 'pointer-events-none');
+      menu?.classList.add('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = 'hidden';
+
+      // Focus first link in menu
+      const firstLink = menu?.querySelector('a');
+      firstLink?.focus();
+    }
+
+    function closeMenu() {
+      isOpen = false;
+      toggle?.setAttribute('aria-expanded', 'false');
+      menu?.setAttribute('aria-hidden', 'true');
+      menu?.classList.remove('opacity-100', 'pointer-events-auto');
+      menu?.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = '';
+      toggle?.focus();
+    }
+
+    toggle.addEventListener('click', () => {
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        if (isOpen) closeMenu();
+      });
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        closeMenu();
+      }
+    });
+
+    // Focus trap inside modal
+    menu.addEventListener('keydown', (e) => {
+      if (!isOpen) return;
+      if (e.key === 'Tab') {
+        const focusable = menu.querySelectorAll<HTMLElement>('a, button');
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+  }
+
+  // Initialize on page load and on page swap
+  setupMobileNav();
+  document.addEventListener('astro:page-load', setupMobileNav);
+</script>

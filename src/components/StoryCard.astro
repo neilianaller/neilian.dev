@@ -1,0 +1,71 @@
+---
+interface Props {
+  title: string;
+  project: string;
+  tagline: string;
+  date: Date;
+  slug: string;
+  icon?: string;
+}
+
+const {
+  title,
+  project,
+  tagline,
+  date,
+  slug,
+  icon = '/placeholders/icon.png',
+} = Astro.props;
+
+const formattedDate = date.toISOString().split('T')[0];
+---
+
+<article class="reveal-card group flex flex-col justify-between p-6 sm:p-8 bg-white border border-line transition-all duration-300 hover:border-ink">
+  <div>
+    <!-- Top row: Icon + Meta -->
+    <div class="flex items-center justify-between gap-4 mb-6">
+      <div class="w-10 h-10 rounded border border-line overflow-hidden bg-surface flex items-center justify-center">
+        <img
+          src={icon}
+          alt={`${project} icon`}
+          width="40"
+          height="40"
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+      <div class="flex items-center gap-2 font-mono-tag text-xs text-ink-soft">
+        <span class="px-2 py-0.5 bg-surface border border-line text-ink">
+          {project}
+        </span>
+        <time datetime={formattedDate}>{formattedDate}</time>
+      </div>
+    </div>
+
+    <!-- Title & Tagline -->
+    <h3 class="text-xl sm:text-2xl font-bold text-ink tracking-tight mb-3">
+      <a
+        href={`/stories/${slug}`}
+        class="group-hover:underline decoration-1 underline-offset-4 cursor-pointer"
+      >
+        {title}
+      </a>
+    </h3>
+
+    <p class="text-sm sm:text-base text-ink-soft line-clamp-3 leading-relaxed">
+      {tagline}
+    </p>
+  </div>
+
+  <!-- Read Story link -->
+  <div class="mt-8 pt-4 border-t border-line flex items-center justify-between font-mono-tag text-xs text-ink">
+    <span class="uppercase tracking-wider">REFLECTIONS</span>
+    <a
+      href={`/stories/${slug}`}
+      class="inline-flex items-center gap-1.5 font-medium hover:underline cursor-pointer"
+    >
+      <span>READ STORY</span>
+      <span class="inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
+    </a>
+  </div>
+</article>

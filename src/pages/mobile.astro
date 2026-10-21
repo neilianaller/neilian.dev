@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const mobileProjects = await getCollection('mobile');
+const sortedProjects = mobileProjects.sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Mobile Applications Archive — NEILIAN.DEV"
+  description="Native and cross-platform mobile apps engineered with offline capabilities, high privacy, and sleek UX."
+>
+  <div class="py-16 sm:py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Breadcrumb / Back Link -->
+    <div class="mb-8">
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 font-mono-tag text-xs uppercase tracking-wider text-ink-soft hover:text-ink transition-colors cursor-pointer"
+      >
+        <span>← BACK TO OVERVIEW</span>
+      </a>
+    </div>
+
+    <!-- Page Header -->
+    <header class="reveal-header mb-12 sm:mb-16 border-b border-line pb-8">
+      <div class="flex items-center gap-3">
+        <span class="font-mono-tag text-xs font-semibold uppercase tracking-wider text-ink-soft">
+          [GALLERY · 02]
+        </span>
+        <div class="h-[1px] w-12 bg-line"></div>
+      </div>
+      <h1 class="mt-4 text-4xl sm:text-6xl font-extrabold text-ink tracking-tightest">
+        Mobile Applications Archive
+      </h1>
+      <p class="mt-3 text-lg text-ink-soft max-w-2xl">
+        Offline-first architectures, native Android integrations, and intuitive utility apps.
+      </p>
+    </header>
+
+    <!-- 3-Column Responsive Grid (1 col mobile, 2 tablet, 3 desktop) -->
+    <div class="reveal-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        sortedProjects.map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            tagline={project.data.tagline}
+            category={project.data.category}
+            image={project.data.image}
+            link={project.data.link}
+            year={project.data.year}
+            storySlug={project.data.storySlug}
+          />
+        ))
+      }
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,105 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const stories = await getCollection('stories');
+  return stories.map((entry) => ({
+    params: { slug: entry.id.replace(/\.mdx?$/, '') },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const formattedDate = entry.data.date.toISOString().split('T')[0];
+---
+
+<Base
+  title={`${entry.data.title} — NEILIAN.DEV`}
+  description={entry.data.tagline}
+  article={true}
+>
+  <article class="py-16 sm:py-24 max-w-2xl mx-auto px-4 sm:px-6">
+    <!-- Back to Stories Link -->
+    <div class="mb-10">
+      <a
+        href="/stories"
+        class="inline-flex items-center gap-2 font-mono-tag text-xs uppercase tracking-wider text-ink-soft hover:text-ink transition-colors cursor-pointer"
+      >
+        <span>← BACK TO STORIES</span>
+      </a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="mb-12 border-b border-line pb-8">
+      <!-- Icon + Project Tag + Date -->
+      <div class="flex items-center justify-between gap-4 mb-6">
+        <div class="w-12 h-12 rounded border border-line bg-surface overflow-hidden flex items-center justify-center">
+          <img
+            src={entry.data.icon}
+            alt={`${entry.data.project} icon`}
+            width="48"
+            height="48"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <div class="flex items-center gap-2 font-mono-tag text-xs text-ink-soft">
+          <span class="px-2.5 py-1 bg-surface border border-line text-ink">
+            {entry.data.project}
+          </span>
+          <time datetime={formattedDate}>{formattedDate}</time>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-ink tracking-tightest leading-tight">
+        {entry.data.title}
+      </h1>
+
+      <!-- Tagline (Italic) -->
+      <p class="mt-4 text-lg sm:text-xl text-ink-soft italic leading-relaxed">
+        "{entry.data.tagline}"
+      </p>
+    </header>
+
+    <!-- Markdown Article Body -->
+    <div class="prose prose-neutral max-w-none text-ink-soft leading-relaxed text-base sm:text-lg prose-headings:font-bold prose-headings:text-ink prose-headings:tracking-tight prose-a:text-ink prose-a:underline prose-a:underline-offset-4 prose-blockquote:border-l-2 prose-blockquote:border-ink prose-blockquote:italic prose-blockquote:text-ink prose-code:font-mono prose-code:text-ink prose-hr:border-line">
+      <Content />
+    </div>
+
+    <!-- Ready to check it out block -->
+    <section class="mt-16 pt-12 border-t border-line">
+      <div class="p-8 bg-surface border border-line text-center">
+        <span class="font-mono-tag text-xs uppercase tracking-widest text-ink-soft block mb-2">
+          [EXPLORE THE SYSTEM]
+        </span>
+        <h2 class="text-2xl font-bold text-ink tracking-tight mb-2">
+          Ready to check it out?
+        </h2>
+        <p class="text-sm text-ink-soft max-w-md mx-auto mb-6">
+          Experience the live system, view releases, or inspect technical specifications.
+        </p>
+        <a
+          href={entry.data.ctaLink}
+          target={entry.data.ctaLink.startsWith('http') ? '_blank' : undefined}
+          rel={entry.data.ctaLink.startsWith('http') ? 'noopener noreferrer' : undefined}
+          class="inline-flex items-center justify-center px-8 py-4 bg-ink text-white font-medium text-sm tracking-wide rounded-none hover:bg-ink-soft transition-all duration-200 cursor-pointer min-h-[44px]"
+        >
+          <span>{entry.data.ctaLabel}</span>
+          <span class="ml-2 font-mono-tag">→</span>
+        </a>
+      </div>
+
+      <div class="mt-10 text-center">
+        <a
+          href="/stories"
+          class="font-mono-tag text-xs uppercase tracking-wider text-ink underline underline-offset-4 hover:opacity-75 cursor-pointer"
+        >
+          ← BACK TO STORIES
+        </a>
+      </div>
+    </section>
+  </article>
+</Base>

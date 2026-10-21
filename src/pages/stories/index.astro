@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import StoryCard from '../../components/StoryCard.astro';
+import { getCollection } from 'astro:content';
+
+const allStories = await getCollection('stories', ({ data }) => !data.draft);
+// Newest first
+const sortedStories = allStories.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<Base
+  title="Stories — Why I Built What I Built — NEILIAN.DEV"
+  description="Personal case studies, architectural motives, and design reflections on why and how each system was crafted."
+>
+  <div class="py-16 sm:py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Breadcrumb / Back Link -->
+    <div class="mb-8">
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 font-mono-tag text-xs uppercase tracking-wider text-ink-soft hover:text-ink transition-colors cursor-pointer"
+      >
+        <span>← BACK TO OVERVIEW</span>
+      </a>
+    </div>
+
+    <!-- Page Header -->
+    <header class="reveal-header mb-12 sm:mb-16 border-b border-line pb-8">
+      <div class="flex items-center gap-3">
+        <span class="font-mono-tag text-xs font-semibold uppercase tracking-wider text-ink-soft">
+          [DISPATCHES & ESSAYS]
+        </span>
+        <div class="h-[1px] w-12 bg-line"></div>
+      </div>
+      <h1 class="mt-4 text-4xl sm:text-6xl font-extrabold text-ink tracking-tightest">
+        Stories
+      </h1>
+      <p class="mt-3 text-lg sm:text-xl text-ink-soft max-w-2xl">
+        Why I built what I built. The problem, the design philosophy, and the lessons learned along the way.
+      </p>
+    </header>
+
+    <!-- 2-Column Grid (1 col mobile, 2 col tablet/desktop), Newest First -->
+    <div class="reveal-grid grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+      {
+        sortedStories.map((story) => (
+          <StoryCard
+            title={story.data.title}
+            project={story.data.project}
+            tagline={story.data.tagline}
+            date={story.data.date}
+            slug={story.id.replace(/\.mdx?$/, '')}
+            icon={story.data.icon}
+          />
+        ))
+      }
+    </div>
+  </div>
+</Base>

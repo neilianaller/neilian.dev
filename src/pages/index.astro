@@ -1,0 +1,187 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import Counters from '../components/Counters.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import DesignCard from '../components/DesignCard.astro';
+import ContactForm from '../components/ContactForm.astro';
+import BirSeal from '../components/BirSeal.astro';
+import { getCollection } from 'astro:content';
+
+const webEntries = await getCollection('web');
+const mobileEntries = await getCollection('mobile');
+const designEntries = await getCollection('design');
+
+// Build Featured Dev Projects in exact order:
+// 1. RunnersPod, 2. Wanminit w/ Fr. Elric Web, 3. DailyAsk, 4. MedTrack
+const allDev = [...webEntries, ...mobileEntries];
+const featuredDevOrder = [
+  'runnerspod',
+  'wanminit',
+  'dailyask',
+  'medtrack',
+];
+
+const featuredDev = featuredDevOrder
+  .map((slug) => allDev.find((item) => item.id.toLowerCase().includes(slug)))
+  .filter(Boolean);
+
+// Build Featured Design Projects in exact order:
+// 1. Rel-Event Creations, 2. In His Steps 2025, 3. Focal Point Pods, 4. GVALIAS Architects
+const featuredDesign = designEntries
+  .filter((item) => item.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="NEILIAN.DEV — Systems, Mobile Apps & Graphic Design"
+  description="Portfolio of Neilian. Solo web/mobile developer and graphic designer. I build systems that work."
+>
+  <!-- 1. Hero -->
+  <Hero />
+
+  <!-- 2. Services Typographic Stack -->
+  <Services />
+
+  <!-- 3. Inverted Counters Band -->
+  <Counters />
+
+  <!-- 4. Featured Dev Projects (#work) -->
+  <section id="work" class="py-20 sm:py-28 lg:py-36 border-b border-line" aria-label="Featured Development Projects">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="reveal-header mb-12 sm:mb-16 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-3">
+            <span class="font-mono-tag text-xs font-semibold uppercase tracking-wider text-ink-soft">
+              [02] FEATURED DEV PROJECTS
+            </span>
+            <div class="h-[1px] w-12 bg-line"></div>
+          </div>
+          <h2 class="mt-4 text-3xl sm:text-5xl font-extrabold text-ink tracking-tightest">
+            Selected Systems & Applications
+          </h2>
+          <p class="mt-2 text-base text-ink-soft max-w-xl">
+            Architected for reliability, speed, and clean separation of concerns.
+          </p>
+        </div>
+
+        <!-- View all links -->
+        <div class="flex items-center gap-4 text-xs font-mono-tag">
+          <a
+            href="/web"
+            class="px-4 py-2 border border-line text-ink hover:border-ink hover:bg-surface transition-colors cursor-pointer"
+          >
+            WEB ARCHIVE →
+          </a>
+          <a
+            href="/mobile"
+            class="px-4 py-2 border border-line text-ink hover:border-ink hover:bg-surface transition-colors cursor-pointer"
+          >
+            MOBILE APPS →
+          </a>
+        </div>
+      </div>
+
+      <!-- 2-Column Grid on Tablet/Desktop, 1 Col on Mobile -->
+      <div class="reveal-grid grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+        {
+          featuredDev.map((item) => (
+            item && (
+              <ProjectCard
+                title={item.data.title}
+                tagline={item.data.tagline}
+                category={item.data.category}
+                image={item.data.image}
+                link={item.data.link}
+                year={item.data.year}
+                storySlug={item.data.storySlug}
+              />
+            )
+          ))
+        }
+      </div>
+
+      <!-- Mobile View All CTA -->
+      <div class="mt-10 sm:hidden flex flex-col gap-3 font-mono-tag text-xs">
+        <a
+          href="/web"
+          class="w-full text-center py-3 border border-line text-ink hover:border-ink"
+        >
+          VIEW ALL WEB PROJECTS →
+        </a>
+        <a
+          href="/mobile"
+          class="w-full text-center py-3 border border-line text-ink hover:border-ink"
+        >
+          VIEW ALL MOBILE APPS →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Featured Graphic Design Projects (#design) -->
+  <section id="design" class="py-20 sm:py-28 lg:py-36 border-b border-line bg-surface/50" aria-label="Featured Graphic Design">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="reveal-header mb-12 sm:mb-16 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-3">
+            <span class="font-mono-tag text-xs font-semibold uppercase tracking-wider text-ink-soft">
+              [03] FEATURED GRAPHIC DESIGN
+            </span>
+            <div class="h-[1px] w-12 bg-line"></div>
+          </div>
+          <h2 class="mt-4 text-3xl sm:text-5xl font-extrabold text-ink tracking-tightest">
+            Graphic Design
+          </h2>
+          <p class="mt-2 text-base text-ink-soft max-w-xl">
+            Brand identity, publication layouts, and geometric markcraft.
+          </p>
+        </div>
+
+        <div>
+          <a
+            href="/design"
+            class="hidden sm:inline-flex items-center px-4 py-2 border border-line text-xs font-mono-tag text-ink hover:border-ink hover:bg-white transition-colors cursor-pointer"
+          >
+            VIEW ALL DESIGN WORK →
+          </a>
+        </div>
+      </div>
+
+      <!-- Asymmetric Editorial Grid on Desktop, 1 Col on Mobile -->
+      <div class="reveal-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        {
+          featuredDesign.map((item) => (
+            <DesignCard
+              title={item.data.title}
+              tagline={item.data.tagline}
+              category={item.data.category}
+              image={item.data.image}
+              link={item.data.link}
+              year={item.data.year}
+            />
+          ))
+        }
+      </div>
+
+      <!-- Mobile View All CTA -->
+      <div class="mt-10 sm:hidden">
+        <a
+          href="/design"
+          class="block w-full text-center py-3 border border-line text-xs font-mono-tag text-ink hover:border-ink"
+        >
+          VIEW ALL DESIGN WORK →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Contact Section (#contact) -->
+  <ContactForm />
+
+  <!-- 7. BIR Seal of Registration Section -->
+  <BirSeal />
+</Base>

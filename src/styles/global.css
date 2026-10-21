@@ -1,0 +1,71 @@
+@import '@fontsource-variable/syne';
+@import '@fontsource/jetbrains-mono';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FFFFFF;
+  --ink: #0A0A0A;
+  --ink-soft: #3A3A3A;
+  --line: #E5E5E5;
+  --surface: #F5F5F5;
+}
+
+html {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: 'Syne Variable', Syne, system-ui, -apple-system, sans-serif;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100svh;
+  overflow-x: hidden;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Monospace utility for section numbers, tags, dates, captions */
+.font-mono-tag {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  letter-spacing: 0.04em;
+}
+
+/* Hairline border utility */
+.border-line {
+  border-color: var(--line);
+}
+
+/* Focus styles for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* Form input resets */
+input, textarea, button {
+  font-family: inherit;
+}
+
+/* Tabular figures for numerical stability */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

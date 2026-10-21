@@ -1,0 +1,84 @@
+---
+import Logo from './Logo.astro';
+import SocialIcons from './SocialIcons.astro';
+import { site } from '../config/site';
+
+import { execSync } from 'node:child_process';
+
+let latestCommit = '';
+try {
+  latestCommit =
+    process.env.CF_PAGES_COMMIT_SHA?.slice(0, 7) ||
+    process.env.GITHUB_SHA?.slice(0, 7) ||
+    execSync('git rev-parse --short HEAD', { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+} catch {
+  latestCommit = process.env.CF_PAGES_COMMIT_SHA?.slice(0, 7) || process.env.GITHUB_SHA?.slice(0, 7) || '';
+}
+
+const navLinks = [
+  { label: 'SERVICES', href: '/#services', mono: '[01]' },
+  { label: 'WORK', href: '/#work', mono: '[02]' },
+  { label: 'DESIGN', href: '/#design', mono: '[03]' },
+  { label: 'STORIES', href: '/stories', mono: '[04]' },
+  { label: 'CONTACT', href: '/#contact', mono: '[05]' },
+];
+---
+
+<footer class="bg-ink text-white border-t border-line py-16 sm:py-24">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/10">
+      <!-- Col 1: Brand & Tagline -->
+      <div class="md:col-span-5 flex flex-col justify-between space-y-6">
+        <div>
+          <Logo inverted={true} />
+          <p class="mt-4 text-base sm:text-lg text-white/70 max-w-sm">
+            {site.tagline}
+          </p>
+        </div>
+      </div>
+
+      <!-- Col 2: Navigation Links -->
+      <div class="md:col-span-3">
+        <h3 class="font-mono-tag text-xs uppercase tracking-widest text-white/50 mb-4">
+          INDEX
+        </h3>
+        <ul class="space-y-3 font-mono-tag text-xs">
+          {
+            navLinks.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer"
+                >
+                  <span class="text-white/40">{item.mono}</span>
+                  <span>{item.label}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Col 3: Social Connections -->
+      <div class="md:col-span-4 flex flex-col">
+        <h3 class="font-mono-tag text-xs uppercase tracking-widest text-white/50 mb-4">
+          CONNECT
+        </h3>
+        <p class="text-sm text-white/70 mb-6">
+          Follow open-source releases, architectural write-ups, and brand design explorations.
+        </p>
+        <SocialIcons inverted={true} />
+      </div>
+    </div>
+
+    <!-- Bottom Copyright & Meta Bar -->
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono-tag text-xs text-white/40">
+      <p class="tracking-wider">
+        LATEST PUSH: <span class="text-white/80">{latestCommit || 'HEAD'}</span>
+      </p>
+      <div class="flex items-center gap-6">
+        <a href="#hero" class="hover:text-white transition-colors cursor-pointer">BACK TO TOP ↑</a>
+      </div>
+    </div>
+  </div>
+</footer>
